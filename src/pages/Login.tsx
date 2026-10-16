@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router";
 import authService from "../services/authService.ts";
+import { useContext } from "react";
+import AuthContext from "../context/AuthContext.tsx";
 function Login() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -27,7 +29,12 @@ function Login() {
     }
     return true;
   };
-  
+  const auth = useContext(AuthContext);
+  if (!auth) {
+    throw new Error(
+      "AuthContext is undefined. Make sure you are using the AuthProvider.",
+    );
+  }
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError("");
@@ -39,8 +46,7 @@ function Login() {
         formData.password,
       );
       if (response.success && response.token) {
-        localStorage.setItem("token", response.token);
-        localStorage.setItem("user", JSON.stringify(response.user));
+        auth.setAuth(response.token, response.user);
         navigate("/dashboard");
       } else {
         setError("Login failed. Please try again.");
@@ -54,7 +60,9 @@ function Login() {
       setLoading(false);
     }
   };
-
+  if (auth.isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  }
   return (
     <>
       <main className="min-h-screen grid place-items-center bg-slate-100 p-4">
@@ -140,21 +148,21 @@ function Login() {
           <div>
             <p className="mt-4 text-sm text-center text-slate-600">
               Don't have an account?{" "}
-              <a
-                href="/register"
+              <Link
+                to="/register"
                 className="font-medium text-blue-600 hover:text-blue-500"
               >
                 Sign up
-              </a>
+              </Link>
             </p>
-            <p className="mt-4 text-sm text-center text-slate-600">
+            {/* <p className="mt-4 text-sm text-center text-slate-600">
               <a
                 href="/forgot-password"
                 className="font-medium text-blue-600 hover:text-blue-500"
               >
                 Forgot your password?
               </a>
-            </p>
+            </p> */}
           </div>
         </section>
       </main>

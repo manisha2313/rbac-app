@@ -7,17 +7,15 @@ const authService = {
     });
     return response.data;
   },
-  register: async (username: string, password: string) => {
+  register: async (username: string, password: string, email: string, fullName: string) => {
     const response = await api.post("/api/auth/register", {
       username,
       password,
+      email,
+      fullName
     });
     return response.data;
-  },
-  forgotPassword: async (username: string) => {
-    const response = await api.post("/api/auth/forgot-password", { username });
-    return response.data;
-  },
+  }
 };
 
 export default authService;
