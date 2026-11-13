@@ -5,6 +5,11 @@ import DashBoard from "../pages/DashBoard";
 import ProtectedRoute from "../components/ProtectedRoute.tsx";
 import Registration from "../pages/Registration.tsx";
 import AppLayout from "../layouts/AppLayout.tsx";
+import Users from "../pages/Users.tsx";
+import Roles from "../pages/Roles.tsx";
+import Permission from "../pages/Permission.tsx";
+import User from "../pages/UserDetails.tsx";
+import Test from "../pages/test.tsx";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -18,23 +23,43 @@ export const router = createBrowserRouter([
         element: <Login />,
       },
       {
-        path:"/register",
-        element:<Registration />
+        path: "/register",
+        element: <Registration />,
       },
     ],
   },
   {
-    element:  <ProtectedRoute />,
-    children:[
+    element: <ProtectedRoute />,
+    children: [
       {
-        element:<AppLayout />,
+        element: <AppLayout />,
         children: [
           {
             element: <DashBoard />,
             path: "/dashboard",
           },
+          {
+            element: <Permission />,
+            path: "/permission",
+          },
+          {
+            element: <Roles />,
+            path: "/roles",
+          },
+          {
+            element: <Users />,
+            path: "/users",
+          },
+          {
+            element: <User />,
+            path: "/user/:id",
+          },
+          {
+            element: <Test />,
+            path: "/test",
+          }
         ],
       },
-    ]
-  }
+    ],
+  },
 ]);

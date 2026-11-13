@@ -9,7 +9,10 @@ function AppLayout() {
       </header>
 
       <div className="flex min-h-[calc(100vh-65px)]">
-        <aside className="w-60 shrink-0 border-r p-4">
+        <aside
+          className="w-60 shrink-0 border-r p-4 bg-teal-900
+"
+        >
           <Sidebar />
         </aside>
 
